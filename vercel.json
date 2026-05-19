@@ -7,7 +7,9 @@
     },
     "backend": {
       "entrypoint": "backend",
-      "routePrefix": "/api"
+      "routePrefix": "/api",
+      "buildCommand": "npm run build",
+      "outputDirectory": "dist"
     }
   }
 }

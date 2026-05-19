@@ -5,7 +5,7 @@ const redisConnection = new Redis(
   {
     lazyConnect: true,
     maxRetriesPerRequest: 1,
-    tls: process.env.NODE_ENV === "production" ? {} : undefined,
+    // tls: process.env.NODE_ENV === "production" ? {} : undefined,
   },
 );
 

@@ -13,11 +13,9 @@ import { start as startDeptRatingWorker } from "./workers/deptRatingWorker";
 import { start as startFacultyRatingWorker } from "./workers/facultyRatingWorker";
 import { start as startCourseRatingWorker } from "./workers/courseRatingWorker";
 
-// LOAD ENVIRONMENT VARIABLES FROM .ENV FILE
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // MIDDLEWARE
 app.use(express.json());
@@ -26,15 +24,15 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
-  }),
+  })
 );
 
-// ROUTES
-app.use("/api/auth", authRoutes);
-app.use("/api/evaluate", evaluateRoutes);
-app.use("/api/lecturer", lecturerRoutes);
+// ROUTES — remove /api prefix, Vercel's routePrefix handles that
+app.use("/auth", authRoutes);
+app.use("/evaluate", evaluateRoutes);
+app.use("/lecturer", lecturerRoutes);
 
-// MONGODB CONNECTION
+// MONGODB CONNECTION — connect but don't call app.listen()
 mongoose
   .connect(process.env.MONGODB_URL as string)
   .then(() => {
@@ -42,11 +40,6 @@ mongoose
     startDeptRatingWorker();
     startFacultyRatingWorker();
     startCourseRatingWorker();
-  })
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
   })
   .catch((err) => {
     console.log("Error connecting to database: ", err);

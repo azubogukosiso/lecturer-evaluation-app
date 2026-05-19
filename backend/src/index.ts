@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 
+import { connectDB } from "./utils/db";
+
+connectDB().catch(console.error);
+
 import authRoutes from "./routes/auth";
 import evaluateRoutes from "./routes/evaluate";
 import lecturerRoutes from "./routes/lecturer";

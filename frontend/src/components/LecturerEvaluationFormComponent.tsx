@@ -40,11 +40,11 @@ const LecturerEvaluationForm = ({
     courseCode: "",
     lecturerID: "",
     questionRatings: {
-      q1: "",
-      q2: "",
-      q3: "",
-      q4: "",
-      q5: "",
+      q1: null,
+      q2: null,
+      q3: null,
+      q4: null,
+      q5: null,
     },
   });
   const [isLoading, setIsLoading] = useState(false);

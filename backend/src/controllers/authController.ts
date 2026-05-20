@@ -103,6 +103,8 @@ export const verify = async (req: Request, res: Response) => {
 
     const user = await model.findOne({ emailAddress });
 
+    console.log("the user: ", user);
+
     if (!user) {
       return res.status(404).json({
         message: `${role.charAt(0).toUpperCase() + role.slice(1)} not found`,

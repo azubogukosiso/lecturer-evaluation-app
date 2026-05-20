@@ -4,10 +4,6 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 
-import { connectDB } from "./utils/db";
-
-connectDB().catch(console.error);
-
 import authRoutes from "./routes/auth";
 import evaluateRoutes from "./routes/evaluate";
 import lecturerRoutes from "./routes/lecturer";
@@ -31,22 +27,27 @@ app.use(
   })
 );
 
-// ROUTES — remove /api prefix, Vercel's routePrefix handles that
+// ROUTES
 app.use("/auth", authRoutes);
 app.use("/evaluate", evaluateRoutes);
 app.use("/lecturer", lecturerRoutes);
 
-// MONGODB CONNECTION — connect but don't call app.listen()
+// MONGODB CONNECTION with serverless-friendly options
 mongoose
-  .connect(process.env.MONGODB_URL as string)
+  .connect(process.env.MONGODB_URL as string, {
+    serverSelectionTimeoutMS: 10000, // fail fast if Atlas unreachable
+    socketTimeoutMS: 45000,          // max time for any operation
+    bufferCommands: false,           // don't queue ops if disconnected — fail immediately
+  })
   .then(() => {
+    console.log("MongoDB connected");
     startOvrRatingWorker();
     startDeptRatingWorker();
     startFacultyRatingWorker();
     startCourseRatingWorker();
   })
   .catch((err) => {
-    console.log("Error connecting to database: ", err);
+    console.error("Error connecting to database:", err);
   });
 
 export default app;

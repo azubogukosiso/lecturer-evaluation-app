@@ -81,6 +81,8 @@ export const verify = async (req: Request, res: Response) => {
   const { emailAddress } = req.body;
   const { role, forgotPassword } = req.query;
 
+  console.log("verify hit:", { emailAddress, role, forgotPassword });
+
   try {
     const findUserType: Record<ValidRole, UserModel> = {
       admin: Admin,
@@ -96,6 +98,8 @@ export const verify = async (req: Request, res: Response) => {
     }
 
     const model = findUserType[role as ValidRole];
+
+    console.log("the model and email: ", model, emailAddress);
 
     const user = await model.findOne({ emailAddress });
 

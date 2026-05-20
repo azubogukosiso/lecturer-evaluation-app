@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 
-let isConnected = false;
-
 export const connectDB = async () => {
-  if (isConnected) return;
+  // 1 = connected, 2 = connecting
+  if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
+    await mongoose.connection.asPromise(); // wait for connection if still connecting
+    return;
+  }
 
   await mongoose.connect(process.env.MONGODB_URL as string, {
     serverSelectionTimeoutMS: 10000,
     socketTimeoutMS: 45000,
   });
 
-  isConnected = true;
   console.log("MongoDB connected");
 };

@@ -5,6 +5,7 @@ import { Model } from "mongoose";
 import Admin from "../models/Admin";
 import Lecturer from "../models/Lecturer";
 import Student from "../models/Student";
+import { connectDB } from "../utils/db";
 import { handleEmailVerification } from "../functions/handleEmailVerification";
 
 const JWT_SECRET =
@@ -20,6 +21,8 @@ type BaseUser = {
 type UserModel = Model<BaseUser>;
 
 export const checkAuth = async (req: Request, res: Response) => {
+    await connectDB(); // ensures connection before any query
+  
   try {
     let user = null;
     let role = null;
@@ -48,6 +51,8 @@ export const checkAuth = async (req: Request, res: Response) => {
 };
 
 export const registerAdmins = async (req: Request, res: Response) => {
+    await connectDB();
+  
   const { emailAddress, password } = req.body;
   try {
     const existingAdmin = await Admin.findOne({ emailAddress });
@@ -71,6 +76,8 @@ export const registerAdmins = async (req: Request, res: Response) => {
 };
 
 export const verify = async (req: Request, res: Response) => {
+    await connectDB();
+  
   const { emailAddress } = req.body;
   const { role, forgotPassword } = req.query;
 
@@ -112,6 +119,8 @@ export const verify = async (req: Request, res: Response) => {
 };
 
 export const createPassword = async (req: Request, res: Response) => {
+  await connectDB();
+  
   const { password } = req.body;
   const { userId, role } = req.query;
 
@@ -154,6 +163,8 @@ export const createPassword = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
+  await connectDB();
+  
   const { emailAddress, password } = req.body;
   const { role } = req.query;
 
@@ -216,6 +227,8 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const logout = (req: Request, res: Response) => {
+  await connectDB();
+  
   res.clearCookie("token", {
     httpOnly: true,
     secure: isProduction,

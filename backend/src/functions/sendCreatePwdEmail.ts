@@ -28,7 +28,9 @@ export const sendCreatePwdEmail = async (
       name: "ESUT Lecturers' Evaluation App",
       email: "azuboguko@gmail.com",
     };
-    message.to = [{ email: "azuboguko@gmail.com", name: "Kosiso Azubogu" }];
+    message.to = [
+      { email: "directorictc@esut.edu.ng", name: "Name of Director" },
+    ];
     // message.to = [{ email: emailAddress, name: "User" }];
 
     const response = await emailAPI.sendTransacEmail(message);

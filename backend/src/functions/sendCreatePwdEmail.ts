@@ -5,6 +5,8 @@ export const sendCreatePwdEmail = async (
   userId: string,
   role: string,
 ) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   try {
     console.log(
       "Sending create password email to:",
@@ -29,7 +31,12 @@ export const sendCreatePwdEmail = async (
       email: "azuboguko@gmail.com",
     };
     message.to = [
-      { email: "directorictc@esut.edu.ng", name: "Name of Director" },
+      {
+        email: isProduction
+          ? "directorictc@esut.edu.ng"
+          : "azuboguko@gmail.com",
+        name: "Name of Director",
+      },
     ];
     // message.to = [{ email: emailAddress, name: "User" }];
 

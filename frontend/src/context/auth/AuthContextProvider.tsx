@@ -32,11 +32,23 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      await apiFetch("/api/auth/logout", {
+        method: "POST",
+      });
+      setUser(null);
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
+
   const contextValue = {
     user,
     setUser,
     loadingUser,
     setLoadingUser,
+    logout,
   };
 
   return (

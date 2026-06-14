@@ -1,4 +1,5 @@
 import type { LecturerDetails } from "../types/LecturerDetails";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 type LecturerDashboardComponentProps = {
   lecturerData: LecturerDetails;
@@ -7,11 +8,21 @@ type LecturerDashboardComponentProps = {
 const LecturerDashboardComponent = ({
   lecturerData,
 }: LecturerDashboardComponentProps) => {
+  const { logout } = useAuthContext();
+
   return (
     <div className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-sm p-5">
         <div>
-          <h1 className="text-xl">Welcome {lecturerData.lecturerName}</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-xl">Welcome {lecturerData.lecturerName}</h1>
+            <button
+              onClick={logout}
+              className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
 
           <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[150px]">
             <div className="bg-gray-100 p-4 rounded flex flex-col justify-between">

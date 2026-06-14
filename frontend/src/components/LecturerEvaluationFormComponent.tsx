@@ -4,6 +4,7 @@ import type { Ratings } from "../types/Ratings";
 import type { Question } from "../types/Question";
 import type { LecturerEvaluationFormData } from "../types/LecturerEvaluationFormData";
 import { questions } from "../data/questions";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 type LecturerEvaluationFormComponentProps = {
   evaluationData: {
@@ -33,6 +34,7 @@ type LecturerEvaluationFormComponentProps = {
 const LecturerEvaluationForm = ({
   evaluationData,
 }: LecturerEvaluationFormComponentProps) => {
+  const { logout } = useAuthContext();
   const [formData, setFormData] = useState<LecturerEvaluationFormData>({
     matricNum: `${evaluationData.matricNum}`,
     faculty: `${evaluationData.faculty}`,
@@ -125,14 +127,22 @@ const LecturerEvaluationForm = ({
     <div className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
         <div className="p-4 sm:p-6 lg:p-8">
-          <div className="border-b-2 border-gray-300 pb-4 mb-6">
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-normal text-gray-800">
-              Students' Lecturer Evaluation Form
-            </h1>
-            <p className="text-xs sm:text-sm text-gray-600 mt-1">
-              Please fill in the required fields and answer the following
-              questions honestly
-            </p>
+          <div className="border-b-2 border-gray-300 pb-4 mb-6 flex justify-between items-start">
+            <div>
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-normal text-gray-800">
+                Students' Lecturer Evaluation Form
+              </h1>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                Please fill in the required fields and answer the following
+                questions honestly
+              </p>
+            </div>
+            <button
+              onClick={logout}
+              className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
           </div>
 
           <form onSubmit={handleSubmit}>
